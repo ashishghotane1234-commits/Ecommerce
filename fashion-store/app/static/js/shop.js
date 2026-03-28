@@ -70,6 +70,27 @@ async function loadProducts(filters = {}) {
   } catch (e) {
     grid.innerHTML = `<p style="padding:40px;color:var(--muted)">Failed to load products. Please refresh.</p>`;
   }
+
+  // Show active search banner
+const existingBanner = document.getElementById('search-banner');
+if (existingBanner) existingBanner.remove();
+
+if (filters.search) {
+  const banner = document.createElement('div');
+  banner.id = 'search-banner';
+  banner.style.cssText = `
+    grid-column: 1/-1; padding: 12px 0 4px;
+    font-size: 0.85rem; color: var(--muted);
+  `;
+  banner.innerHTML = `
+    Showing results for <strong style="color:var(--ink)">"${filters.search}"</strong>
+    &nbsp;<button onclick="clearSearch()"
+      style="background:none;border:none;color:var(--accent-dk);
+             cursor:pointer;font-size:0.82rem;text-decoration:underline">
+      Clear
+    </button>`;
+  document.getElementById('product-grid').prepend(banner);
+}
 }
 
 function showSkeletons(grid) {
@@ -82,6 +103,12 @@ function showSkeletons(grid) {
         <div class="skeleton skeleton-line short"></div>
       </div>
     </div>`).join('');
+}
+
+function clearSearch() {
+  document.getElementById('nav-search').value = '';
+  window.history.replaceState({}, '', '/');
+  applyFilters();
 }
 
 // Initial load

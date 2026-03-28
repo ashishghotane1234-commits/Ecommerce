@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}DRAPE — Fashion Store{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a href="/" class="nav-logo">DRAPE</a>
+    <div class="nav-links">
+      <a href="/">Shop</a>
+      <a href="/?category=Men">Men</a>
+      <a href="/?category=Women">Women</a>
+      <a href="/?category=Unisex">Unisex</a>
+    </div>
+    <div class="nav-actions">
+      <div class="search-pill">
+        <input type="text" id="nav-search" placeholder="Search styles…" />
+        <span class="search-icon">⌕</span>
+      </div>
+      <a href="/cart" class="cart-btn">
+        Bag <span class="cart-count" id="cart-count">0</span>
+      </a>
+      <div class="user-menu" id="user-menu">
+        <a href="/login" id="login-link">Login</a>
+        <span id="user-greeting" style="display:none">
+          Hi, <strong id="user-name-display"></strong>
+          <button onclick="logout()" class="logout-btn">Logout</button>
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- FLASH TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- PAGE CONTENT -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">DRAPE</span>
+      <p>Curated fashion, delivered with care.</p>
+      <p class="footer-copy">© 2025 Drape. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>

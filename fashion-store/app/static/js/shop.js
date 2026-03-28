@@ -57,6 +57,10 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
 });
 
 async function loadProducts(filters = {}) {
+  renderActivePills(filters);   // ← add this line
+  const grid = document.getElementById('product-grid');
+  showSkeletons(grid);
+  
   const grid = document.getElementById('product-grid');
   showSkeletons(grid);
 

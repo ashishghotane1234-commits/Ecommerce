@@ -14,6 +14,33 @@ function applyFilters() {
   loadProducts({ search, category: activeCategory, min_price: minPrice, max_price: maxPrice, sort });
 }
 
+function renderActivePills(filters) {
+  const container = document.getElementById('active-filters');
+  const pills = [];
+
+  if (filters.category) pills.push({ label: `Category: ${filters.category}`, clear: () => { activeCategory = ''; applyFilters(); document.querySelectorAll('.filter-btn[data-cat]').forEach(b => b.classList.remove('active')); document.querySelector('.filter-btn[data-cat=""]').classList.add('active'); }});
+  if (filters.min_price) pills.push({ label: `Min: ₹${filters.min_price}`, clear: () => { document.getElementById('min-price').value=''; applyFilters(); }});
+  if (filters.max_price) pills.push({ label: `Max: ₹${filters.max_price}`, clear: () => { document.getElementById('max-price').value=''; applyFilters(); }});
+
+  container.innerHTML = pills.map((p, i) => `
+    <span style="
+      background:var(--cream); border-radius:20px;
+      padding:5px 12px; font-size:0.75rem; display:flex; align-items:center; gap:6px;
+    ">
+      ${p.label}
+      <button data-pill="${i}" style="
+        background:none; border:none; cursor:pointer;
+        color:var(--muted); font-size:0.9rem; line-height:1;
+      ">✕</button>
+    </span>
+  `).join('');
+
+  // Attach clear events
+  container.querySelectorAll('[data-pill]').forEach(btn => {
+    btn.addEventListener('click', () => pills[+btn.dataset.pill].clear());
+  });
+}
+
 // Category buttons
 document.querySelectorAll('.filter-btn[data-cat]').forEach(btn => {
   if (btn.dataset.cat === activeCategory) {

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from app.config import Config
 
 def create_app():
@@ -6,7 +6,10 @@ def create_app():
     app.config.from_object(Config)
     app.secret_key = Config.SECRET_KEY
 
-    # Register blueprints
+    @app.before_request
+    def make_session_permanent():
+        session.permanent = True
+
     from app.routes.auth     import auth_bp
     from app.routes.products import products_bp
     from app.routes.cart     import cart_bp
@@ -18,3 +21,12 @@ def create_app():
     app.register_blueprint(orders_bp)
 
     return app
+```
+
+---
+
+## Step 5A — Prepare Your Repository
+
+### 1. Create `Procfile` (no file extension) in root:
+```
+web: gunicorn run:app

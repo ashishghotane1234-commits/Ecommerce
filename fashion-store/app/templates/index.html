@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}DRAPE — New Season{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="hero">
+  <p class="hero-eyebrow">New Season Arrivals</p>
+  <h1>Dress with <em>intention</em>,<br>live with style.</h1>
+  <p>Curated clothing for those who believe fashion is a form of self-expression.</p>
+  <a href="#shop" class="hero-cta">Explore Collection</a>
+</section>
+
+<!-- Filter Bar -->
+<div class="filter-bar" id="shop">
+  <button class="filter-btn active" data-cat="">All</button>
+  <button class="filter-btn" data-cat="Men">Men</button>
+  <button class="filter-btn" data-cat="Women">Women</button>
+  <button class="filter-btn" data-cat="Unisex">Unisex</button>
+
+  <div class="filter-right">
+    <div class="price-range">
+      <span>₹</span>
+      <input type="number" id="min-price" placeholder="Min" min="0" />
+      <span>–</span>
+      <input type="number" id="max-price" placeholder="Max" min="0" />
+      <button class="filter-btn" onclick="applyFilters()">Go</button>
+    </div>
+    <select class="sort-select" id="sort-select" onchange="applyFilters()">
+      <option value="newest">Newest</option>
+      <option value="price_asc">Price: Low → High</option>
+      <option value="price_desc">Price: High → Low</option>
+    </select>
+  </div>
+</div>
+
+<!-- Section Header -->
+<div class="section-header">
+  <h2>Our Collection</h2>
+  <span class="count" id="product-count"></span>
+</div>
+
+<!-- Product Grid -->
+<div class="product-grid" id="product-grid">
+  <!-- Skeleton placeholders -->
+  ${[...Array(6)].map(() => `
+    <div class="skeleton-card">
+      <div class="skeleton skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton skeleton-line short"></div>
+        <div class="skeleton skeleton-line"></div>
+        <div class="skeleton skeleton-line short"></div>
+      </div>
+    </div>`).join('')}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/shop.js') }}"></script>
+{% endblock %}

@@ -11,7 +11,27 @@ function applyFilters() {
   const maxPrice = document.getElementById('max-price').value;
   const sort     = document.getElementById('sort-select').value;
 
-  loadProducts({ search, category: activeCategory, min_price: minPrice, max_price: maxPrice, sort });
+  // Sync filters to URL so users can share/bookmark filtered pages
+function syncURL(filters) {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([k, v]) => { if (v) params.set(k, v); });
+  window.history.replaceState({}, '', params.toString() ? `/?${params}` : '/');
+}
+
+// Updated applyFilters to also sync URL
+function applyFilters() {
+  const search   = document.getElementById('nav-search')?.value.trim() || '';
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const sort     = document.getElementById('sort-select').value;
+  const filters  = { search, category: activeCategory, min_price: minPrice, max_price: maxPrice, sort };
+
+  syncURL(filters);
+  loadProducts(filters);
+}
+
+// Initial load — read from URL
+applyFilters();
 }
 
 function renderActivePills(filters) {
